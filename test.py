@@ -11,21 +11,26 @@ st.caption('Trained on a ~1500 image dataset of various Counter-Strike Global Of
 
 st.divider()
 
-st.header('Upload an image to predict the map')
-uploaded_file = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
+sidebar = st.sidebar
 
-if uploaded_file is not None:
+model_selector = sidebar.selectbox('Select model size', ['64x64', '256x256'])
+if model_selector == '64x64':
+    model = joblib.load('model_weights_64.joblib')
+    resizer = 64
+else:
+    if model_selector == '256x256':
+        model = joblib.load('model_weights_256.joblib')
+        resizer = 256
 
-    model_loading_text = st.text("Loading model weights...")
-    # Load the saved model weights
-    model = joblib.load('model_weights.joblib')
-    model_loading_text.text("Model weights loaded.")
 
+image_uploader = sidebar.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
+
+if image_uploader is not None:
     # Load and preprocess the random image
-    random_image_path = uploaded_file
+    random_image_path = image_uploader
     random_image = Image.open(random_image_path)
     st.image(random_image, caption='Raw image', use_column_width=True)
-    random_image = random_image.resize((64, 64))  # Resize the image to match the model input size
+    random_image = random_image.resize((resizer, resizer))  # Resize the image to match the model input size
     random_image = np.array(random_image)
     random_image_flattened = random_image.reshape(1, -1)  # Reshape the image for prediction
     st.image(random_image, caption='Image after processing', use_column_width=False)
