@@ -7,7 +7,7 @@ import numpy as np
 import time
 
 st.title('CSGO Map Classifier')
-st.caption('by [Umit Canbolat](https://github.com/hoxsec)')
+st.caption('Trained on a ~1500 image dataset of various Counter-Strike Global Offensive map images | by [Umit Canbolat](https://github.com/hoxsec)')
 
 st.divider()
 
