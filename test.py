@@ -13,14 +13,19 @@ st.divider()
 
 sidebar = st.sidebar
 
-model_selector = sidebar.selectbox('Select model size', ['64x64', '256x256'])
+model_selector = sidebar.selectbox('Select model size', ['64x64', '256x256', '512x512', '512x512_v2'])
 if model_selector == '64x64':
-    model = joblib.load('model_weights_64.joblib')
+    model = joblib.load('models/model_weights_64.joblib')
     resizer = 64
-else:
-    if model_selector == '256x256':
-        model = joblib.load('model_weights_256.joblib')
-        resizer = 256
+elif model_selector == '256x256':
+    model = joblib.load('models/model_weights_256.joblib')
+    resizer = 256
+elif model_selector == '512x512':
+    model = joblib.load('models/model_weights_512.joblib')
+    resizer = 512
+elif model_selector == '512x512_v2':
+    model = joblib.load('models/model_weights_512_v2.joblib')
+    resizer = 512
 
 
 image_uploader = sidebar.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
